@@ -51,4 +51,4 @@ This Project developed by Hexebit.
 
 The project's core architecture, XAML designs, and database schema were built from scratch using **Gemini 3 Pro** and **GitHub Copilot** with the "AI Pair-Programming" method.
 
-📜 **Licence:** MIT License
+**Licence:** MIT License
