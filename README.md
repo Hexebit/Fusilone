@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Sürüm-v0.9.2_Beta-blue?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/Version-v0.9.2_Final-blue?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet" alt=".NET 10">
   <img src="https://img.shields.io/badge/Platform-Windows_WPF-lightgrey?style=flat-square&logo=windows" alt="WPF">
   <img src="https://img.shields.io/badge/Database-SQLite-003B57?style=flat-square&logo=sqlite" alt="SQLite">
