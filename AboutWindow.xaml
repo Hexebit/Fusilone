@@ -1,0 +1,124 @@
+<Window x:Class="Fusilone.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Fusilone"
+        mc:Ignorable="d"
+        Title="Hakkında" Height="550" Width="450"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Icon="pack://application:,,,/assets/logo.png">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Style="{StaticResource MaterialDesignTabControl}" materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+            <!-- SEKME 1: GENEL BİLGİLER -->
+            <TabItem Header="{DynamicResource About_Tab_About}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Image Source="pack://application:,,,/assets/logo.png" Width="100" Height="100" Margin="0,0,0,15"/>
+                        
+                        <TextBlock Text="{DynamicResource About_Title}" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                        <TextBlock Text="{DynamicResource About_Subtitle}" FontSize="14" HorizontalAlignment="Center" Opacity="0.7"/>
+                        <TextBlock Text="{DynamicResource About_Version}" FontSize="12" HorizontalAlignment="Center" Margin="0,5,0,25" Opacity="0.5"/>
+                        
+                        <materialDesign:Card Padding="15" UniformCornerRadius="10" Margin="0,0,0,15" Width="300">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource About_Developer}" FontSize="10" FontWeight="Bold" Opacity="0.5" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                                    <TextBlock Text="Hexebit - M. Asaf" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" 
+                                            Width="28" Height="28" 
+                                            Padding="0" Margin="8,0,0,0"
+                                            ToolTip="GitHub Profile"
+                                            Click="OpenGitHub_Click">
+                                        <materialDesign:PackIcon Kind="Github" Width="20" Height="20"/>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <Separator Margin="40,5" Opacity="0.2"/>
+                        
+                        <TextBlock Text="{DynamicResource About_Contributors}" FontSize="10" FontWeight="Bold" Opacity="0.5" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+                        
+                        <ItemsControl HorizontalAlignment="Center" Margin="0,0,0,20">
+                            <ItemsControl.Items>
+                                <TextBlock Text="Bünyamin Yaşar" HorizontalAlignment="Center" Opacity="0.8"/>
+                                <TextBlock Text="Erdem Ural" HorizontalAlignment="Center" Opacity="0.8"/>
+                                <TextBlock Text="Ömer Faruk Yavuz" HorizontalAlignment="Center" Opacity="0.8"/>
+                            </ItemsControl.Items>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- SEKME 2: SÜRÜM NOTLARI -->
+            <TabItem Header="{DynamicResource About_Tab_Release}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="15,20,15,0">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource About_ReleaseTitle}" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="0,0,0,10"/>
+                        
+                        <materialDesign:Card Padding="15" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,0,0,15">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Tasarım İyileştirmeleri:</Bold> Uygulama üzerinde çeşitli görsel iyileştirmeler ve yazılım optimizasyonları yapıldı. Karanlık ve Aydınlık temada oluşan farklı font ve görünüm hataları düzenlendi, cihaz ayrıntıları sekmesinin büyük olma sorunu giderildi.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Dil Desteği:</Bold> İngilizce dil desteği aktifleştirildi. Artık Fusilone uygulaması cihazınızın kendi dilini algılayıp otomatik olarak o dilde açılabiliyor.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Ayrıntılı Arama Özelliği:</Bold> Artık sadece RAM Boyutu ya da İşlemci Modeli gibi spesifik aramalar yapılabiliyor.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Cihaz Güncelleme Detaylandırıldı:</Bold> Artık bir cihazın donanımını güncellediğinizde, bakımlar kısmında otomatik olarak eklenmekte ve QR Koda işlenmekte. Ayrıca donanım ekleme/çıkarma işlemleri için yeni bir arayüz oluşturuldu.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>QR Kod Güncellendi:</Bold> Artık oluşturulan QR Kodlar 1050x600 çözünürlüğünde ve yerleşimleri optimize edildi. Böylece bakım notlarının sığmama sorunu düzeltildi.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Oyun Konsolu Kategorisi:</Bold> Artık cihazlarınıza oyun konsollarını da ekleyebilirsiniz.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Görsel Arama Algoritması Geliştirildi:</Bold> Artık arama sorgusu daha fazla varyasyonla yapılıyor. Bing'de yüksek çözünürlüklü "murl" tercih ediliyor.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Müşteriler Kategorisi:</Bold> Böylece her bir müşterinin e-posta ve telefon numaraları kaydediliyor ve ana sayfada sağ tarafta her bir müşterinin getirdiği tüm cihazlar takip edilebiliyor.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Yedekleme Sistemi:</Bold> Sağ üstten ayarlar butonuna tıklayarak database'in bir yedeğini alabilirsiniz.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Dışa Aktarma Özelliği:</Bold> Tüm cihazların olduğu listeyi .csv ya da .excel dosyası olarak dışa aktarabilirsiniz.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    • <Bold>Cihaz Silme:</Bold> Önceki sürümde çalışmayan bu özellik düzeltildi ve ikonlar güncellendi.
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap">
+                                    • <Bold>Ekstralar Bölümü:</Bold> Her cihaz için "ekstralar" bölümü eklendi. Buraya cihaz hakkındaki ekstra detaylar ve notlar serbest bir şekilde eklenebilir.
+                                </TextBlock>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        
+                        <TextBlock Text="{DynamicResource About_ReleasePrev}" Opacity="0.5" Margin="0,10,0,5" FontSize="12"/>
+                        <TextBlock Text="{DynamicResource About_ReleasePrevDesc}" Opacity="0.5" TextWrapping="Wrap" FontSize="11" Margin="0,0,0,10"/>
+                        
+                        <TextBlock Text="{DynamicResource About_ReleasePrev2}" Opacity="0.5" Margin="0,5,0,5" FontSize="12"/>
+                        <TextBlock Text="{DynamicResource About_ReleasePrev2Desc}" Opacity="0.5" TextWrapping="Wrap" FontSize="11"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Margin="0,15,0,0">
+            <TextBlock Text="{DynamicResource About_Copyright}" FontSize="10" HorizontalAlignment="Center" Margin="0,0,0,10" Opacity="0.4"/>
+            <Button Style="{StaticResource MaterialDesignRaisedButton}" Content="{DynamicResource About_Close}" Width="120" Click="Close_Click" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>

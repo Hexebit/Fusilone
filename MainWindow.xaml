@@ -1,0 +1,524 @@
+<Window x:Class="Fusilone.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusilone"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:converters="clr-namespace:Fusilone.Converters"
+        xmlns:views="clr-namespace:Fusilone.Views"
+        mc:Ignorable="d"
+        Title="{DynamicResource AppTitle}" Height="850" Width="1300"
+        Icon="pack://application:,,,/assets/logo.png"
+        WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="14"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+    
+    <Window.Resources>
+        <converters:DateConverter x:Key="DateConverter"/>
+        <converters:StatusDisplayConverter x:Key="StatusDisplayConverter"/>
+    </Window.Resources>
+
+    <Border x:Name="MainRootBorder" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="0" BorderThickness="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/> <!-- Standart Navigasyon -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol Sütun: Standart Menü -->
+            <Border Grid.Column="0" Background="{DynamicResource MaterialDesignCardBackground}" BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Margin="20">
+                        <Image Source="pack://application:,,,/assets/logo.png" 
+                               Width="120" Height="120" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,10,0,10" 
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                        
+                        <TextBlock Text="FUSILONE" FontSize="22" FontWeight="Black" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <TextBlock Text="{DynamicResource AppSubtitle}" FontSize="10" HorizontalAlignment="Center" Margin="0,0,0,30" Opacity="0.6" Foreground="{DynamicResource PrimaryHueMidBrush}" FontWeight="SemiBold"/>
+                        
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ShowList_Click" HorizontalAlignment="Stretch" Margin="0,2" Height="50">
+                            <StackPanel Orientation="Horizontal" Width="180">
+                                <materialDesign:PackIcon Kind="ViewDashboard" Margin="0,0,15,0" VerticalAlignment="Center" Width="24" Height="24" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                <TextBlock Text="{DynamicResource Menu_Dashboard}" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ShowSearch_Click" HorizontalAlignment="Stretch" Margin="0,2" Height="50">
+                            <StackPanel Orientation="Horizontal" Width="180">
+                                <materialDesign:PackIcon Kind="Magnify" Margin="0,0,15,0" VerticalAlignment="Center" Width="24" Height="24" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                <TextBlock Text="{DynamicResource Menu_DeviceSearch}" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ShowAdd_Click" HorizontalAlignment="Stretch" Margin="0,2" Height="50">
+                            <StackPanel Orientation="Horizontal" Width="180">
+                                <materialDesign:PackIcon Kind="Plus" Margin="0,0,15,0" VerticalAlignment="Center" Width="24" Height="24" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                <TextBlock Text="{DynamicResource Menu_AddDevice}" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="MaintenanceButton_Click" HorizontalAlignment="Stretch" Margin="0,2" Height="50">
+                            <StackPanel Orientation="Horizontal" Width="180">
+                                <materialDesign:PackIcon Kind="CalendarClock" Margin="0,0,15,0" VerticalAlignment="Center" Width="24" Height="24" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                <TextBlock Text="{DynamicResource Menu_Maintenance}" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ShowCustomers_Click" HorizontalAlignment="Stretch" Margin="0,2" Height="50">
+                            <StackPanel Orientation="Horizontal" Width="180">
+                                <materialDesign:PackIcon Kind="AccountGroup" Margin="0,0,15,0" VerticalAlignment="Center" Width="24" Height="24" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                <TextBlock Text="{DynamicResource Menu_Customers}" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Margin="10">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ShowAbout_Click" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="InformationOutline" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Menu_About}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <TextBlock Text="{DynamicResource VersionLabel}" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="10" Opacity="0.4"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Sağ Sütun: Ana İçerik -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/> <!-- Top Bar -->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Top Bar -->
+                <Grid Grid.Row="0" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,0,0,0">
+                        <!-- Use standard window chrome; avoid heavy shadow effects that conflict with system chrome -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="25,0">
+                        <TextBlock Text="FUSILONE" FontSize="18" FontWeight="Black"/>
+                        <TextBlock Text=" | " Opacity="0.3" Margin="10,0"/>
+                        <TextBlock x:Name="ViewTitle" Text="{DynamicResource View_Dashboard}" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="25,0">
+                        <materialDesign:PopupBox Style="{DynamicResource MaterialDesignPopupBox}"
+                                                     PlacementMode="BottomAndAlignRightEdges"
+                                                     ToolTip="Ayarlar"
+                                                     Margin="0,0,15,0">
+                                <materialDesign:PopupBox.ToggleContent>
+                                    <materialDesign:PackIcon Kind="Settings" Width="24" Height="24"/>
+                                </materialDesign:PopupBox.ToggleContent>
+                                <Border Padding="10">
+                                    <StackPanel Width="200">
+                                        <TextBlock Text="{DynamicResource Settings_Title}" FontWeight="Bold" Margin="10,5,10,15" Opacity="0.6" FontSize="10"/>
+                                        <Grid Margin="10,0,10,10">
+                                            <TextBlock Text="{DynamicResource Settings_DarkTheme}" VerticalAlignment="Center"/>
+                                            <ToggleButton x:Name="ThemeToggle" Style="{DynamicResource MaterialDesignSwitchToggleButton}"
+                                                          HorizontalAlignment="Right" Click="ToggleTheme_Click"/>
+                                        </Grid>
+                                        <Separator Style="{DynamicResource MaterialDesignDarkSeparator}"/>
+                                        <Grid Margin="10,10,10,5">
+                                            <TextBlock Text="{DynamicResource Settings_Language}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="TR" Padding="4" MinWidth="30" FontSize="10" Click="LangTR_Click"/>
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="EN" Padding="4" MinWidth="30" FontSize="10" Click="LangEN_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Separator Style="{DynamicResource MaterialDesignDarkSeparator}"/>
+                                        <StackPanel Margin="10,10,10,5">
+                                            <Button Style="{DynamicResource MaterialDesignRaisedButton}" Click="BackupButton_Click" Content="{DynamicResource Settings_Backup}"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ExportCsv_Click" Content="{DynamicResource Settings_ExportCsv}"/>
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="ExportExcel_Click" Content="{DynamicResource Settings_ExportExcel}" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </materialDesign:PopupBox>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="25">
+                    <!-- 1. GÖRÜNÜM: DASHBOARD -->
+                    <materialDesign:TransitioningContent x:Name="DeviceListTransitioner">
+                        <Grid x:Name="DeviceListView">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <!-- İSTATİSTİK KARTLARI -->
+                            <Grid Margin="0,0,0,25">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:Card Grid.Column="0" Margin="0,0,10,0" Padding="20">
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="Monitor" Width="28" Height="28" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                        <TextBlock Text="{DynamicResource Stat_TotalDevices}" Margin="0,15,0,5" FontSize="12" Opacity="0.7"/>
+                                        <TextBlock x:Name="StatTotalCount" Text="0" FontSize="32" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                                <materialDesign:Card Grid.Column="1" Margin="5,0,5,0" Padding="20">
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="CheckCircle" Width="28" Height="28" Foreground="{DynamicResource SuccessColor}"/>
+                                        <TextBlock Text="{DynamicResource Stat_Active}" Margin="0,15,0,5" FontSize="12" Opacity="0.7"/>
+                                        <TextBlock x:Name="StatActiveCount" Text="0" FontSize="32" FontWeight="Bold" Foreground="{DynamicResource SuccessColor}"/>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                                <materialDesign:Card Grid.Column="2" Margin="5,0,5,0" Padding="20">
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="AlertCircle" Width="28" Height="28" Foreground="{DynamicResource ErrorColor}"/>
+                                        <TextBlock Text="{DynamicResource Stat_MaintDue}" Margin="0,15,0,5" FontSize="12" Opacity="0.7"/>
+                                        <TextBlock x:Name="StatMaintDueCount" Text="0" FontSize="32" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                                <materialDesign:Card Grid.Column="3" Margin="10,0,0,0" Padding="20">
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="CurrencyTry" Width="28" Height="28" Foreground="{DynamicResource AccentColor}"/>
+                                        <TextBlock Text="{DynamicResource Stat_TotalValue}" Margin="0,15,0,5" FontSize="12" Opacity="0.7"/>
+                                        <TextBlock x:Name="StatTotalValue" Text="0 ₺" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource AccentColor}"/>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </Grid>
+                            
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <materialDesign:Card Padding="0" Margin="0,0,15,0" VerticalAlignment="Stretch">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Background="{DynamicResource PrimaryHueMidBrush}" Padding="15">
+                                            <Grid>
+                                                <TextBlock Text="{DynamicResource Inventory_List}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                <ToggleButton x:Name="KanbanToggle" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignActionToggleButton}" Click="KanbanToggle_Click">
+                                                    <ToggleButton.Content>
+                                                        <materialDesign:PackIcon Kind="ViewColumn" />
+                                                    </ToggleButton.Content>
+                                                    <materialDesign:ToggleButtonAssist.OnContent>
+                                                        <materialDesign:PackIcon Kind="FormatListBulleted" />
+                                                    </materialDesign:ToggleButtonAssist.OnContent>
+                                                </ToggleButton>
+                                            </Grid>
+                                        </Border>
+                                        <Grid Grid.Row="1">
+                                            <DataGrid x:Name="DevicesDataGrid" 
+                                                      AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" 
+                                                      materialDesign:DataGridAssist.CellPadding="12 10"
+                                                      Background="Transparent" BorderThickness="0"
+                                                      MouseDoubleClick="DevicesDataGrid_MouseDoubleClick">
+                                                <DataGrid.Columns>
+                                                    <DataGridTemplateColumn Width="60">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Ellipse Width="40" Height="40" Stroke="{DynamicResource PrimaryHueMidBrush}" StrokeThickness="1">
+                                                                    <Ellipse.Fill>
+                                                                        <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill"/>
+                                                                    </Ellipse.Fill>
+                                                                </Ellipse>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                    <DataGridTextColumn Header="{DynamicResource Col_Type}" Binding="{Binding Type}" FontWeight="Bold"/>
+                                                    <DataGridTextColumn Header="{DynamicResource Col_BrandModel}" Binding="{Binding FullName}" Width="*"/>
+                                                    <DataGridTemplateColumn Header="{DynamicResource Col_Status}">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <materialDesign:Chip Content="{Binding Status, Converter={StaticResource StatusDisplayConverter}}" Height="24" FontSize="11" FontWeight="Bold"/>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                    <DataGridTextColumn Header="{DynamicResource Col_Owner}" Binding="{Binding OwnerName}" Width="*"/>
+                                                            <DataGridTemplateColumn Header="">
+                                                                <DataGridTemplateColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <Button Click="DeleteDevice_Click" Tag="{Binding Id}" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Sil">
+                                                                            <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                                                                        </Button>
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <views:DeviceKanbanView x:Name="KanbanBoard" Visibility="Collapsed"/>
+                                        </Grid>
+                                    </Grid>
+                                </materialDesign:Card>
+                                
+                                <materialDesign:Card Grid.Column="1" Padding="20">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{DynamicResource Device_Distribution}" FontWeight="Bold" Margin="0,0,0,10" Opacity="0.8"/>
+                                        <lvc:PieChart x:Name="DeviceTypeChart" Grid.Row="1" LegendPosition="Bottom"/>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </Grid>
+                        </Grid>
+                    </materialDesign:TransitioningContent>
+
+                    <!-- 2. GÖRÜNÜM: SORGULAMA -->
+                    <materialDesign:TransitioningContent x:Name="SearchTransitioner" Visibility="Collapsed">
+                        <Grid x:Name="SearchView">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:Card Padding="20" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="SearchBox" materialDesign:HintAssist.Hint="{DynamicResource Search_Hint}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,20,0" TextChanged="SearchBox_TextChanged"/>
+                                        <ComboBox x:Name="FilterTypeCombo" Grid.Column="1" Margin="0,0,15,0" materialDesign:HintAssist.Hint="{DynamicResource Filter_Type}" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" SelectionChanged="Filter_SelectionChanged">
+                                            <ComboBoxItem Content="{DynamicResource Filter_All}" Tag="ALL" IsSelected="True"/>
+                                            <ComboBoxItem Content="AO"/>
+                                            <ComboBoxItem Content="PC"/>
+                                            <ComboBoxItem Content="LP"/>
+                                            <ComboBoxItem Content="ET"/>
+                                            <ComboBoxItem Content="GC"/>
+                                            <ComboBoxItem Content="MN"/>
+                                            <ComboBoxItem Content="PH"/>
+                                            <ComboBoxItem Content="TB"/>
+                                            <ComboBoxItem Content="PR"/>
+                                            <ComboBoxItem Content="RT"/>
+                                            <ComboBoxItem Content="PJ"/>
+                                        </ComboBox>
+                                        <ComboBox x:Name="FilterStatusCombo" Grid.Column="2" materialDesign:HintAssist.Hint="{DynamicResource Filter_Status}" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" SelectionChanged="Filter_SelectionChanged">
+                                            <ComboBoxItem Content="{DynamicResource Filter_All}" Tag="ALL" IsSelected="True"/>
+                                            <ComboBoxItem Content="{DynamicResource Status_Active}" Tag="Aktif"/>
+                                            <ComboBoxItem Content="{DynamicResource Status_Faulty}" Tag="Arızalı"/>
+                                        </ComboBox>
+                                    </Grid>
+                                    <Expander Header="{DynamicResource Filter_Advanced}" Margin="0,15,0,0">
+                                        <Grid Margin="0,10,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox x:Name="SpecKeyBox" materialDesign:HintAssist.Hint="{DynamicResource Filter_SpecKey}" Margin="0,0,10,0"/>
+                                            <TextBox x:Name="SpecValueBox" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Filter_SpecValue}" TextChanged="SpecFilter_TextChanged"/>
+                                        </Grid>
+                                    </Expander>
+                                </StackPanel>
+                            </materialDesign:Card>
+                            <materialDesign:Card Grid.Row="1" Padding="0">
+                                <DataGrid x:Name="SearchResultsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MouseDoubleClick="DevicesDataGrid_MouseDoubleClick" BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{DynamicResource Col_Id}" Binding="{Binding Id}" FontWeight="Bold"/>
+                                        <DataGridTextColumn Header="{DynamicResource Col_Type}" Binding="{Binding Type}"/>
+                                        <DataGridTextColumn Header="{DynamicResource Col_BrandModel}" Binding="{Binding FullName}" Width="*"/>
+                                        <DataGridTextColumn Header="{DynamicResource Col_Owner}" Binding="{Binding OwnerName}" Width="*"/>
+                                        <DataGridTextColumn Header="{DynamicResource Col_Status}" Binding="{Binding Status, Converter={StaticResource StatusDisplayConverter}}" Width="100"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </materialDesign:Card>
+                        </Grid>
+                    </materialDesign:TransitioningContent>
+
+                    <!-- 3. GÖRÜNÜM: YENİ CİHAZ EKLEME -->
+                    <materialDesign:TransitioningContent x:Name="AddDeviceTransitioner" Visibility="Collapsed">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <materialDesign:Card Padding="30" Margin="0,0,0,20" MaxWidth="900" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource AddForm_Title}" FontSize="18" FontWeight="Bold" Margin="0,0,0,25"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="220"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel VerticalAlignment="Top">
+                                            <Border Width="200" Height="200" Background="{DynamicResource MaterialDesignDivider}" CornerRadius="4">
+                                                <Grid>
+                                                    <materialDesign:PackIcon Kind="Image" Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.2"/>
+                                                    <Image x:Name="PreviewImage" Stretch="UniformToFill" Margin="2"/>
+                                                </Grid>
+                                            </Border>
+                                            <Button Style="{DynamicResource MaterialDesignRaisedButton}" Margin="0,15,0,0" Width="200" Click="AutoImageSearch_Click">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="AutoFix" Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{DynamicResource AddForm_FindImage}"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <TextBox x:Name="ImageUrlTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_ImageUrl}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,10,0,0" TextChanged="ImageUrlTextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="30,0,0,0">
+                                            <ComboBox x:Name="TypeComboBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Category}" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,20" SelectionChanged="TypeComboBox_SelectionChanged">
+                                                <ComboBoxItem Content="AO (All-In-One PC)"/>
+                                                <ComboBoxItem Content="PC (Masaüstü Bilgisayar)"/>
+                                                <ComboBoxItem Content="LP (Laptop)"/>
+                                                <ComboBoxItem Content="ET (Akıllı Tahta)"/>
+                                                <ComboBoxItem Content="GC (Oyun Konsolu)"/>
+                                                <ComboBoxItem Content="MN (Monitör)"/>
+                                                <ComboBoxItem Content="PH (Telefon)"/>
+                                                <ComboBoxItem Content="TB (Tablet)"/>
+                                                <ComboBoxItem Content="PR (Yazıcı)"/>
+                                                <ComboBoxItem Content="RT (Router)"/>
+                                                <ComboBoxItem Content="PJ (Projeksiyon)"/>
+                                            </ComboBox>
+                                            <TextBox x:Name="BrandTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Brand}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,20"/>
+                                            <TextBox x:Name="ModelTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Model}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,20"/>
+                                            <TextBox x:Name="SerialNumberTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Serial}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,20"/>
+                                            <TextBox x:Name="DeviceNameTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_DeviceName}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,20"/>
+                                            <ComboBox x:Name="OwnerComboBox" IsEditable="True" IsTextSearchEnabled="False"
+                                                      materialDesign:HintAssist.Hint="{DynamicResource AddForm_Owner}"
+                                                      Style="{DynamicResource MaterialDesignFloatingHintComboBox}"
+                                                      Margin="0,0,0,20"
+                                                      KeyUp="OwnerComboBox_TextChanged" />
+                                            <TextBox x:Name="OwnerEmailTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_OwnerEmail}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,20"/>
+                                            <TextBox x:Name="OwnerPhoneTextBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_OwnerPhone}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,20"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <Expander Header="{DynamicResource AddForm_TechDetails}" Margin="0,20,0,0">
+                                        <StackPanel x:Name="DynamicFieldsPanel" Margin="10"/>
+                                    </Expander>
+
+                                    <Expander x:Name="AdvancedSpecsExpander" Header="{DynamicResource AddForm_Advanced}" Margin="0,10,0,0" Visibility="Collapsed">
+                                        <StackPanel x:Name="AdvancedFieldsPanel" Margin="10"/>
+                                    </Expander>
+
+                                    <Expander Header="{DynamicResource AddForm_Finance}" Margin="0,10,0,25">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <ComboBox x:Name="StatusComboBox" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Status}" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,10,20">
+                                                <ComboBoxItem Content="{DynamicResource Status_Active}" Tag="Aktif" IsSelected="True"/>
+                                                <ComboBoxItem Content="{DynamicResource Status_Inactive}" Tag="Pasif"/>
+                                                <ComboBoxItem Content="{DynamicResource Status_Faulty}" Tag="Arızalı"/>
+                                            </ComboBox>
+                                            <DatePicker x:Name="PurchaseDatePicker" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource AddForm_PurchaseDate}" Style="{DynamicResource MaterialDesignFloatingHintDatePicker}" Margin="0,0,0,20"/>
+                                            <TextBox x:Name="CostTextBox" Grid.Row="1" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Cost}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,10,0"/>
+                                            <TextBox x:Name="PeriodTextBox" Grid.Row="1" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource AddForm_Period}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+                                            <DatePicker x:Name="LastMaintenanceDatePicker" Visibility="Collapsed"/>
+                                        </Grid>
+                                    </Expander>
+
+                                    <Button x:Name="SaveButton" Style="{DynamicResource MaterialDesignRaisedButton}" Height="50" Click="SaveButton_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="ContentSave" Margin="0,0,10,0"/>
+                                            <TextBlock Text="{DynamicResource AddForm_Save}" FontWeight="Bold"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:Card>
+                        </ScrollViewer>
+                    </materialDesign:TransitioningContent>
+
+                    <!-- 4. GÖRÜNÜM: BAKIM TAKVİMİ -->
+                    <materialDesign:TransitioningContent x:Name="MaintenanceTransitioner" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:Card Padding="0">
+                                <DataGrid x:Name="MaintenanceDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MouseDoubleClick="DevicesDataGrid_MouseDoubleClick" BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{DynamicResource Col_Id}" Binding="{Binding Id}" FontWeight="Bold"/>
+                                        <DataGridTextColumn Header="{DynamicResource Col_BrandModel}" Binding="{Binding FullName}" Width="*"/>
+                                        <DataGridTextColumn Header="{DynamicResource Col_LastMaint}" Binding="{Binding LastMaintenanceDate, Converter={StaticResource DateConverter}}" Width="*"/>
+                                        <DataGridTemplateColumn Header="{DynamicResource Col_NextMaint}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding NextMaintenanceDate, Converter={StaticResource DateConverter}}" Foreground="{DynamicResource MaterialDesignBody}" FontWeight="Bold"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </materialDesign:Card>
+                        </Grid>
+                    </materialDesign:TransitioningContent>
+
+                    <!-- 5. GÖRÜNÜM: MÜŞTERİLER -->
+                    <materialDesign:TransitioningContent x:Name="CustomersTransitioner" Visibility="Collapsed">
+                        <Grid x:Name="CustomersView">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <materialDesign:Card Padding="20" Margin="0,0,0,20">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="200"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="CustomersSearchBox" materialDesign:HintAssist.Hint="{DynamicResource Customers_Search}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,20,0" TextChanged="CustomersSearchBox_TextChanged"/>
+                                    <TextBlock Grid.Column="1" Text="{DynamicResource Customers_Title}" VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Right" Opacity="0.6"/>
+                                </Grid>
+                            </materialDesign:Card>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <materialDesign:Card Padding="0" Margin="0,0,15,0">
+                                    <DataGrid x:Name="CustomersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionChanged="CustomersDataGrid_SelectionChanged" BorderThickness="0">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{DynamicResource Customers_Col_Name}" Binding="{Binding Name}" Width="*" MinWidth="180" FontWeight="Bold"/>
+                                            <DataGridTextColumn Header="{DynamicResource Customers_Col_TotalDevices}" Binding="{Binding TotalDevices}" Width="90"/>
+                                            <DataGridTextColumn Header="{DynamicResource Customers_Col_TotalCost}" Binding="{Binding TotalCostDisplay}" Width="120"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </materialDesign:Card>
+
+                                <materialDesign:Card Grid.Column="1" Padding="0">
+                                    <DataGrid x:Name="CustomerDevicesDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" BorderThickness="0" MouseDoubleClick="DevicesDataGrid_MouseDoubleClick">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{DynamicResource Col_Id}" Binding="{Binding Id}" FontWeight="Bold"/>
+                                            <DataGridTextColumn Header="{DynamicResource Col_Type}" Binding="{Binding Type}"/>
+                                            <DataGridTextColumn Header="{DynamicResource Col_BrandModel}" Binding="{Binding FullName}" Width="*"/>
+                                            <DataGridTextColumn Header="{DynamicResource Col_Status}" Binding="{Binding Status, Converter={StaticResource StatusDisplayConverter}}" Width="120"/>
+                                            <DataGridTextColumn Header="{DynamicResource AddForm_Cost}" Binding="{Binding Cost}" Width="120"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </materialDesign:Card>
+                            </Grid>
+                        </Grid>
+                    </materialDesign:TransitioningContent>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
